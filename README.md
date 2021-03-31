@@ -1,4 +1,5 @@
 # hackust-sudo-coders
+[Coding Tasks](https://docs.google.com/document/d/1JwMRnJmz9-ZT8I1zqMIqa7FGZzh7pT7nUiMeY9UEbUU/edit#)
 
 ## API documentation for APP
 [link to documentation](https://documenter.getpostman.com/view/15182178/TzCMcTS7)  
