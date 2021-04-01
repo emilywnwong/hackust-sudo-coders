@@ -53,6 +53,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
+
+    // Adrian: For GET request
     public static JSONObject getJSONObjectFromURL(String urlString) throws IOException, JSONException {
         HttpURLConnection urlConnection = null;
         URL url = new URL(urlString);
@@ -71,10 +73,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             sb.append(line + "\n");
         }
         br.close();
-
         String jsonString = sb.toString();
-//        System.out.println("JSON: " + jsonString);
-
         return new JSONObject(jsonString);
     }
 
