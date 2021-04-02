@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class LoginActivity extends AppCompatActivity {
-    private Button button;
+    private Button button, regbutton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,17 +21,32 @@ public class LoginActivity extends AppCompatActivity {
                 openMapsActivity();
             }
         });
+
+        regbutton = (Button) findViewById(R.id.regbutton);
+        regbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openRegisterActivity();
+            }
+        });
+
+
+
+
     }
 
-    public void logon()
-    {
-
-    }
+//    public void logon()
+//    {
+//
+//    }
 
 
     public void openMapsActivity() {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
-
+    public void openRegisterActivity() {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
 }
