@@ -25,6 +25,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:drawableStart="@android:drawable/arrow_down_float"
         android:drawablePadding="6dp"
         android:gravity="bottom"
@@ -32,10 +33,12 @@
         android:singleLine="true"
         android:text="hello user. Tale us something"
         app:layout_constrainedWidth="true"
-        app:layout_constraintBottom_toTopOf="@+id/LoginButton"
+        app:layout_constraintBottom_toTopOf="@+id/username_text"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toRightOf="@id/title_guideline_left"
         app:layout_constraintRight_toLeftOf="@id/title_guideline_right"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.253"
         tools:text="@tools:sample/lorem/random" />
 
     <EditText

@@ -5,9 +5,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.util.Log;
+import android.widget.Toast;
 
 
-import androidx.appcompat.app.AppCompatActivity;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
@@ -15,69 +15,71 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.BufferedOutputStream;
+import java.io.BufferedInputStream;
+
 import java.io.BufferedWriter;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
-public class requestAPI extends AsyncTask<String, Void, String> {
+
+public class requestAPI extends AsyncTask<String, String, String> {
     private final static String TAG = "HTTPURLCONNECTION test";
-    private String parameter1;
-    private String parameter2;
-    private String parameter3;
 
     @Override
-    protected String doInBackground(String... urls) {
-        return POST(urls[0]);
-    }
+    protected String doInBackground(String... params) { try {
+        String NewsData;
+        //define the url we have to connect with
+        URL url = new URL(params[0]);
+        Log.d(TAG,params[0]);
+        //make connect with url and send request
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        //waiting for 7000ms for response
+        urlConnection.setConnectTimeout(7000);//set timeout to 5 seconds
+
+        try {
+            //getting the response data
+            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+            //convert the stream to string
+            NewsData = ConvertInputToStringNoChange(in);
+            //send to display data
+            publishProgress(NewsData);
+            Log.d(TAG,NewsData);
+        } finally {
+            //end connection
+            Log.d(TAG,"failed");
+            urlConnection.disconnect();
+        }
+
+    }catch (Exception ex){}
+        return null;}
+
 
     @Override
     protected void onPostExecute(String result) {
         Log.d(TAG,"onPostExecute");
     }
-    private String POST(String APIUrl) {
-        String result = "";
-        HttpURLConnection connection;
-        try {
-            URL url = new URL(APIUrl);
-            connection = (HttpURLConnection)url.openConnection();
-            connection.setRequestMethod("POST");
-//            connection.setRequestProperty("authentication", RegisterActivity.Authentication);
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("parameter1=").append(URLEncoder.encode(parameter1, "UTF-8")).append("&");
-            stringBuilder.append("parameter2=").append(URLEncoder.encode(parameter2, "UTF-8")).append("&");
-            stringBuilder.append("parameter3=").append(URLEncoder.encode(parameter3, "UTF-8")).append("&");
-            outputStream.writeBytes(stringBuilder.toString());
-            outputStream.flush();
-            outputStream.close();
+    // this method convert any stream to string
+    public static String ConvertInputToStringNoChange(InputStream inputStream) {
 
+        BufferedReader bureader=new BufferedReader( new InputStreamReader(inputStream));
+        String line ;
+        String linereultcal="";
 
-            InputStream inputStream = connection.getInputStream();
-            int status = connection.getResponseCode();
-            Log.d(TAG, String.valueOf(status));
-            if(inputStream != null){
-                InputStreamReader reader = new InputStreamReader(inputStream,"UTF-8");
-                BufferedReader in = new BufferedReader(reader);
+        try{
+            while((line=bureader.readLine())!=null) {
 
-                String line="";
-                while ((line = in.readLine()) != null) {
-                    result += (line+"\n");
-                }
-            } else{
-                result = "Did not work!";
+                linereultcal+=line;
+
             }
-            return  result;
-        } catch (Exception e) {
-            Log.d("ATask InputStream", e.getLocalizedMessage());
-            e.printStackTrace();
-            return result;
-        }
+            inputStream.close();
+
+
+        }catch (Exception ex){}
+
+        return linereultcal;
     }
+
 }
 
