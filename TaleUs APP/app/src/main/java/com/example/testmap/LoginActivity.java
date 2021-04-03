@@ -6,24 +6,35 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class LoginActivity extends AppCompatActivity {
-    private Button button, regbutton;
+    private EditText username_editText, password_editText;
+    private Button LoginButton, RegisterButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        username_editText = findViewById(R.id.username_text);
+        password_editText = findViewById(R.id.password_text);
+        LoginButton = (Button) findViewById(R.id.LoginButton);
+        LoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String username = username_editText.getText().toString();
+                String password = password_editText.getText().toString();
+//                if (username == "admin" && password == "testpw") {openMapsActivity();}
                 openMapsActivity();
             }
         });
 
-        regbutton = (Button) findViewById(R.id.regbutton);
-        regbutton.setOnClickListener(new View.OnClickListener() {
+        RegisterButton = (Button) findViewById(R.id.RegisterButton);
+        RegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openRegisterActivity();
