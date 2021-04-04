@@ -26,6 +26,7 @@ import java.io.DataOutputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,8 +58,23 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     //Emily: for POST request
+    private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException{
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+        for(Map.Entry<String, String> entry : params.entrySet()){
+            if (first)
+                first = false;
+            else
+                result.append("&");
 
-    public static JSONObject postRequest(String urlString, Uri.Builder builder) throws IOException, JSONException {
+            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+            result.append("=");
+            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+        }
+
+        return result.toString();
+    }
+    public JSONObject postRequest(String urlString, HashMap<String, String> postDataParams) throws IOException, JSONException {
         OutputStream out = null;
         URL url = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -68,14 +84,10 @@ public class RegisterActivity extends AppCompatActivity {
         conn.setDoInput(true);
         conn.setDoOutput(true);
 
-
-        String query = builder.build().getEncodedQuery();
-
         OutputStream os = conn.getOutputStream();
-//        BufferedWriter wr = new BufferedWriter(
-//                new OutputStreamWriter(os, "UTF-8"));
-        DataOutputStream writer = new DataOutputStream(conn.getOutputStream());
-        writer.writeBytes(query);
+        BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(os, "UTF-8"));
+        writer.write(getPostDataString(postDataParams));
         writer.flush();
         writer.close();
         os.close();
@@ -110,19 +122,43 @@ public class RegisterActivity extends AppCompatActivity {
                                         String email = email_editText.getText().toString();
                                         String username = username_editText.getText().toString();
                                         String password = password_editText.getText().toString();
+                                        String icon = "---";
                                         String baseurl = "http://35.194.218.135:5000/createAccount?";
+                                        HashMap<String, String> map = new HashMap<String, String>();
+                                        map.put("account",username);
+                                        map.put("password", password);
+                                        map.put("email", email);
+                                        map.put("icon", icon);
 
                                         new Thread(new Runnable(){
                                             public void run(){
                                                 try {
-                                                    Uri.Builder builder = new Uri.Builder()
-                                                            .appendQueryParameter("account", username)
-                                                            .appendQueryParameter("password", password)
-                                                            .appendQueryParameter("email", email);
-                                                    JSONObject jsonObject = postRequest(baseurl, builder);
+
+                                                    JSONObject jsonObject = postRequest(baseurl, map);
 
                                                     String createSuccess = jsonObject.get("error").toString();
-                                                    if (createSuccess!= "false") { System.out.println(createSuccess); }
+                                                    System.out.println("createAccount "+username+" status - "+createSuccess);
+                                                    if (createSuccess== "true") { openMapsActivity(); }
+                                                    else{
+                                                    //else : may have an account already -> login
+                                                    String url = "http://35.194.218.135:5000/login?account="+ username+"&password="+password;
+                                                    new Thread(new Runnable(){
+                                                        public void run(){
+                                                            try {
+                                                                JSONObject jsonObject = getJSONObjectFromURL(url);
+                                                                System.out.println(jsonObject);
+                                                                String userId = jsonObject.get("userId").toString();
+                                                                if (userId!= "null") {
+                                                                    System.out.println(userId);
+                                                                    openMapsActivity();
+                                                                }
+                                                            } catch (IOException e) {
+                                                                e.printStackTrace();
+                                                            } catch (JSONException e) {
+                                                                e.printStackTrace();
+                                                            }
+                                                        }
+                                                    }).start();}
                                                 } catch (IOException e) {
                                                     e.printStackTrace();
                                                 } catch (JSONException e) {
@@ -134,10 +170,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 });
     }
 
-//    public void logon()
-//    {
-//
-//    }
+
 
     public void openMapsActivity() {
         Intent intent = new Intent(this, MapsActivity.class);
@@ -147,7 +180,5 @@ public class RegisterActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
-//    public void createAccount() {
-//
-//    }
+
 }
