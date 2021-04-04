@@ -6,15 +6,14 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
-import android.content.Context;
+import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.nfc.Tag;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -29,7 +28,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Marker;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -40,12 +38,13 @@ import com.google.android.gms.tasks.Task;
 import org.json.JSONException;
 
 import java.io.IOException;
-import org.json.JSONException;
+
 import org.json.*;
 import java.net.*;
 import java.io.*;
 import android.os.StrictMode;
-import java.util.*;
+import android.view.View;
+import android.widget.Button;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -53,6 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
+    private FloatingActionButton CreateTaleButton, ProfileButton;
 
     // Adrian: For GET request
     public static JSONObject getJSONObjectFromURL(String urlString) throws IOException, JSONException {
@@ -121,6 +121,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
+
+        CreateTaleButton = findViewById(R.id.createTale);
+        CreateTaleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCreateTaleActivity();
+            }
+        });
+        ProfileButton = findViewById(R.id.profile);
+        ProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openProfileActivity();
+            }
+        });
+
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -193,6 +211,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void stopLocationUpdates(){
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+    }
+
+    public void openCreateTaleActivity() {
+        Intent intent = new Intent(this, CreateTaleActivity.class);
+        startActivity(intent);
+    }
+
+    public void openProfileActivity() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
     }
 
 }
