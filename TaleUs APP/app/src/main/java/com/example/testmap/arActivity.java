@@ -3,6 +3,7 @@ package com.example.testmap;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.media.Image;
 import android.opengl.GLES30;
@@ -18,6 +19,8 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.ar.core.Anchor;
 import com.google.ar.core.ArCoreApk;
 import com.google.ar.core.Camera;
@@ -31,6 +34,7 @@ import com.google.ar.core.Plane;
 import com.google.ar.core.Point;
 import com.google.ar.core.Point.OrientationMode;
 import com.google.ar.core.PointCloud;
+import com.google.ar.core.Pose;
 import com.google.ar.core.Session;
 import com.google.ar.core.Trackable;
 import com.google.ar.core.TrackingFailureReason;
@@ -64,6 +68,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -356,7 +361,7 @@ public class arActivity extends AppCompatActivity implements SampleRender.Render
             Texture virtualObjectAlbedoTexture =
                     Texture.createFromAsset(
                             render,
-                            "models/pawn_albedo.png",
+                            "models/pawn_albedo2.png",
                             Texture.WrapMode.CLAMP_TO_EDGE,
                             Texture.ColorFormat.SRGB);
             Texture virtualObjectPbrTexture =
@@ -469,8 +474,13 @@ public class arActivity extends AppCompatActivity implements SampleRender.Render
                 message = TrackingStateHelper.getTrackingFailureReasonString(camera);
             }
         } else if (hasTrackingPlane()) {
-            if (anchors.isEmpty()) {
-                message = WAITING_FOR_TAP_MESSAGE;
+            message = "Click on the AR Object to listen!";
+            if (anchors.size() == 0) {
+                Pose arObj = Pose.makeTranslation(0, 0, -1f);
+                Anchor anchorArObj = session.createAnchor(
+                        frame.getCamera().getPose()
+                                .compose(arObj));
+                anchors.add(anchorArObj);
             }
         } else {
             message = SEARCHING_PLANE_MESSAGE;
@@ -555,47 +565,52 @@ public class arActivity extends AppCompatActivity implements SampleRender.Render
     private void handleTap(Frame frame, Camera camera) {
         MotionEvent tap = tapHelper.poll();
         if (tap != null && camera.getTrackingState() == TrackingState.TRACKING) {
-            List<HitResult> hitResultList;
-
-            if (instantPlacementSettings.isInstantPlacementEnabled()) {
-                hitResultList =
-                        frame.hitTestInstantPlacement(tap.getX(), tap.getY(), APPROXIMATE_DISTANCE_METERS);
-            } else {
-                hitResultList = frame.hitTest(tap);
-            }
-            for (HitResult hit : hitResultList) {
-                // If any plane, Oriented Point, or Instant Placement Point was hit, create an anchor.
-                Trackable trackable = hit.getTrackable();
-                // If a plane was hit, check that it was hit inside the plane polygon.
-                if ((trackable instanceof Plane
-                        && ((Plane) trackable).isPoseInPolygon(hit.getHitPose())
-                        && (PlaneRenderer.calculateDistanceToPlane(hit.getHitPose(), camera.getPose()) > 0))
-                        || (trackable instanceof Point
-                        && ((Point) trackable).getOrientationMode()
-                        == OrientationMode.ESTIMATED_SURFACE_NORMAL)
-                        || (trackable instanceof InstantPlacementPoint)) {
-                    // Cap the number of objects created. This avoids overloading both the
-                    // rendering system and ARCore.
-                    if (anchors.size() >= 20) {
-                        anchors.get(0).detach();
-                        anchors.remove(0);
-                    }
-
-                    // Adding an Anchor tells ARCore that it should track this position in
-                    // space. This anchor is created on the Plane to place the 3D model
-                    // in the correct position relative both to the world and to the plane.
-                    anchors.add(hit.createAnchor());
-                    // For devices that support the Depth API, shows a dialog to suggest enabling
-                    // depth-based occlusion. This dialog needs to be spawned on the UI thread.
-//                    this.runOnUiThread(this::showOcclusionDialogIfNeeded);
-
-                    // Hits are sorted by depth. Consider only closest hit on a plane, Oriented Point, or
-                    // Instant Placement Point.
-                    break;
-                }
-            }
+            System.out.println("Tap!!");
         }
     }
+
+
+//
+//            if (instantPlacementSettings.isInstantPlacementEnabled()) {
+//                hitResultList =
+//                        frame.hitTestInstantPlacement(tap.getX(), tap.getY(), APPROXIMATE_DISTANCE_METERS);
+//            } else {
+//                hitResultList = frame.hitTest(tap);
+//            }
+//            for (HitResult hit : hitResultList) {
+//                // If any plane, Oriented Point, or Instant Placement Point was hit, create an anchor.
+//                Trackable trackable = hit.getTrackable();
+//                // If a plane was hit, check that it was hit inside the plane polygon.
+//                if ((trackable instanceof Plane
+//                        && ((Plane) trackable).isPoseInPolygon(hit.getHitPose())
+//                        && (PlaneRenderer.calculateDistanceToPlane(hit.getHitPose(), camera.getPose()) > 0))
+//                        || (trackable instanceof Point
+//                        && ((Point) trackable).getOrientationMode()
+//                        == OrientationMode.ESTIMATED_SURFACE_NORMAL)
+//                        || (trackable instanceof InstantPlacementPoint)) {
+//                    // Cap the number of objects created. This avoids overloading both the
+//                    // rendering system and ARCore.
+//                    if (anchors.size() >= 20) {
+//                        anchors.get(0).detach();
+//                        anchors.remove(0);
+//                    }
+//
+//                    // Adding an Anchor tells ARCore that it should track this position in
+//                    // space. This anchor is created on the Plane to place the 3D model
+//                    // in the correct position relative both to the world and to the plane.
+//                    anchors.add(hit.createAnchor());
+//
+//                    // For devices that support the Depth API, shows a dialog to suggest enabling
+//                    // depth-based occlusion. This dialog needs to be spawned on the UI thread.
+////                    this.runOnUiThread(this::showOcclusionDialogIfNeeded);
+//
+//                    // Hits are sorted by depth. Consider only closest hit on a plane, Oriented Point, or
+//                    // Instant Placement Point.
+//                    break;
+//                }
+//            }
+//        }
+//    }
 
 
 
