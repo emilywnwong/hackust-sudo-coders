@@ -26,6 +26,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
@@ -53,6 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
     private FloatingActionButton CreateTaleButton, ProfileButton;
+    private Marker myMarker;
 
     // Adrian: For GET request
     public static JSONObject getJSONObjectFromURL(String urlString) throws IOException, JSONException {
@@ -99,19 +101,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     final LatLng MARKER = new LatLng(lat, lon);
 
-                    mMap.addMarker(
+                    Marker marker = mMap.addMarker(
                         new MarkerOptions()
                             .position(MARKER)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.calvin_head)));
+                    marker.setTag(MARKER);
+
+                    mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker) {
+                            LatLng position = (LatLng)(marker.getTag());
+                            //Using position get Value from arraylist
+                            openArActivity();
+                            return false;
+                        }
+                    });
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         }
         }
     };
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,4 +241,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(intent);
     }
 
+    public void openArActivity() {
+        Intent intent = new Intent(this, arActivity.class);
+        startActivity(intent);
+    }
 }

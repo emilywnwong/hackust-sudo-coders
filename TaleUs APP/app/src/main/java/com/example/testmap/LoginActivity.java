@@ -19,6 +19,8 @@ import java.net.URL;
 
 
 public class LoginActivity extends AppCompatActivity {
+    public static String userId;
+    public static String username;
     private EditText username_editText, password_editText;
     private Button LoginButton, RegisterButton;
 
@@ -67,6 +69,9 @@ public class LoginActivity extends AppCompatActivity {
                                                            if (userId!= "null") {
                                                                System.out.println(userId);
                                                                openMapsActivity();
+                                                               LoginActivity.userId = userId;
+                                                               LoginActivity.username = username;
+
                                                            }
                                                        } catch (IOException e) {
                                                            e.printStackTrace();
