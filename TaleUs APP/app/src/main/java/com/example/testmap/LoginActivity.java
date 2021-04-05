@@ -67,11 +67,8 @@ public class LoginActivity extends AppCompatActivity {
                                                            System.out.println(jsonObject);
                                                            String userId = jsonObject.get("userId").toString();
                                                            if (userId!= "null") {
-                                                               System.out.println(userId);
-                                                               openMapsActivity();
                                                                LoginActivity.userId = userId;
                                                                LoginActivity.username = username;
-
                                                            }
                                                        } catch (IOException e) {
                                                            e.printStackTrace();
@@ -80,6 +77,8 @@ public class LoginActivity extends AppCompatActivity {
                                                        }
                                                    }
                                                }).start();
+                                               if (userId!= "null") {System.out.println(userId);
+                                                   openMapsActivity();}
                                            }
                                        });
 
