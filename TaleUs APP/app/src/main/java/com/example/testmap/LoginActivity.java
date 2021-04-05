@@ -15,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 import java.net.URL;
 
 
@@ -26,6 +27,8 @@ public class LoginActivity extends AppCompatActivity {
 
     // Adrian: For GET request
     public static JSONObject getJSONObjectFromURL(String urlString) throws IOException, JSONException {
+        String jsonString = null;
+
         HttpURLConnection urlConnection = null;
         URL url = new URL(urlString);
         urlConnection = (HttpURLConnection) url.openConnection();
@@ -35,15 +38,22 @@ public class LoginActivity extends AppCompatActivity {
         urlConnection.setDoOutput(true);
         urlConnection.connect();
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-        StringBuilder sb = new StringBuilder();
+        for (int i = 0;  i < 10 ; i++){
+            try{
+            BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+            StringBuilder sb = new StringBuilder();
 
-        String line;
-        while ((line = br.readLine()) != null) {
-            sb.append(line + "\n");
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            br.close();
+            jsonString = sb.toString();
+            break;
+            }
+            catch (ProtocolException e){ }
         }
-        br.close();
-        String jsonString = sb.toString();
+
         return new JSONObject(jsonString);
     }
     @Override
@@ -69,6 +79,8 @@ public class LoginActivity extends AppCompatActivity {
                                                            if (userId!= "null") {
                                                                LoginActivity.userId = userId;
                                                                LoginActivity.username = username;
+                                                               System.out.println(userId);
+                                                               openMapsActivity();
                                                            }
                                                        } catch (IOException e) {
                                                            e.printStackTrace();
@@ -77,8 +89,6 @@ public class LoginActivity extends AppCompatActivity {
                                                        }
                                                    }
                                                }).start();
-                                               if (userId!= "null") {System.out.println(userId);
-                                                   openMapsActivity();}
                                            }
                                        });
 

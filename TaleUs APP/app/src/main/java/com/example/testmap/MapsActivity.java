@@ -58,6 +58,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     // Adrian: For GET request
     public static JSONObject getJSONObjectFromURL(String urlString) throws IOException, JSONException {
+        String jsonString = null;
+
         HttpURLConnection urlConnection = null;
         URL url = new URL(urlString);
         urlConnection = (HttpURLConnection) url.openConnection();
@@ -67,15 +69,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         urlConnection.setDoOutput(true);
         urlConnection.connect();
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-        StringBuilder sb = new StringBuilder();
+        for (int i = 0;  i < 100 ; i++){
+            try{
+                BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+                StringBuilder sb = new StringBuilder();
 
-        String line;
-        while ((line = br.readLine()) != null) {
-            sb.append(line + "\n");
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                br.close();
+                jsonString = sb.toString();
+                break;
+            }
+            catch (ProtocolException e){ }
         }
-        br.close();
-        String jsonString = sb.toString();
+
         return new JSONObject(jsonString);
     }
 

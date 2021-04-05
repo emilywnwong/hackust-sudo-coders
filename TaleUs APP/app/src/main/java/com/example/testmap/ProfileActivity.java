@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 import java.net.URL;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -25,6 +26,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     // Adrian: For GET request
     public static JSONObject getJSONObjectFromURL(String urlString) throws IOException, JSONException {
+        String jsonString = null;
+
         HttpURLConnection urlConnection = null;
         URL url = new URL(urlString);
         urlConnection = (HttpURLConnection) url.openConnection();
@@ -34,15 +37,22 @@ public class ProfileActivity extends AppCompatActivity {
         urlConnection.setDoOutput(true);
         urlConnection.connect();
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-        StringBuilder sb = new StringBuilder();
+        for (int i = 0;  i < 10 ; i++){
+            try{
+                BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+                StringBuilder sb = new StringBuilder();
 
-        String line;
-        while ((line = br.readLine()) != null) {
-            sb.append(line + "\n");
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                br.close();
+                jsonString = sb.toString();
+                break;
+            }
+            catch (ProtocolException e){ }
         }
-        br.close();
-        String jsonString = sb.toString();
+
         return new JSONObject(jsonString);
     }
 
@@ -72,24 +82,44 @@ public class ProfileActivity extends AppCompatActivity {
                     String talesCount = jsonObject.get("talesCount").toString();
                     if (talesCount!= "null") {
                         System.out.println(talesCount);
-                        tales_count_TextView.setText("Tales: "+talesCount);
+                        for (int i=0;i<10;i++) {
+                            try{
+                            tales_count_TextView.setText("Tales: " + talesCount);
+                            break;
+                            } catch (Exception e) {}
+                        }
                     }
                     String followerCount = jsonObject.get("followerCount").toString();
                     if (followerCount!= "null") {
                         System.out.println(followerCount);
-                        follower_count_TextView.setText("Follower: "+followerCount);
+                        for (int i=0;i<10;i++) {
+                            try{
+                                follower_count_TextView.setText("Follower: "+followerCount);
+                                break;
+                            } catch (Exception e) {}
+                        }
                     }
                     String followingCount = jsonObject.get("followingCount").toString();
                     if (followingCount!= "null") {
                         System.out.println(followingCount);
-                        following_count_TextView.setText("Following: "+followingCount);
+                        for (int i=0;i<10;i++) {
+                            try{
+                                following_count_TextView.setText("Following: "+followingCount);
+                                break;
+                            } catch (Exception e) {}
+                        }
                     }
                     String iconString = jsonObject.get("icon").toString();
                     if (iconString!= "null") {
                         System.out.println(iconString);
                         byte[] iconBytes = Base64.decode(iconString, Base64.DEFAULT);
                         Bitmap bmp = BitmapFactory.decodeByteArray(iconBytes, 0, iconBytes.length);
-                        icon_ImageView.setImageBitmap(Bitmap.createScaledBitmap(bmp, icon_ImageView.getWidth(), icon_ImageView.getHeight(), false));
+                        for (int i=0;i<10;i++) {
+                            try{
+                                icon_ImageView.setImageBitmap(Bitmap.createScaledBitmap(bmp, icon_ImageView.getWidth(), icon_ImageView.getHeight(), false));
+                                break;
+                            } catch (Exception e) {}
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
