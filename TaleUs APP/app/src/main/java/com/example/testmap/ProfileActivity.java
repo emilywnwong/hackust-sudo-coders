@@ -68,8 +68,8 @@ public class ProfileActivity extends AppCompatActivity {
         icon_ImageView = (ImageView) findViewById(R.id.icon_view);
 
         // need to get userId & username after login/ register
-        String userId = "1";
-        String username = "@adrian";
+        String userId = LoginActivity.userId;
+        String username = "@"+LoginActivity.username;
         String url = "http://35.194.218.135:5000/getAccountSummary?userId="+ userId;
 
         username_TextView.setText(username);

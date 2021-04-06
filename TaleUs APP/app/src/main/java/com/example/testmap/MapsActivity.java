@@ -69,21 +69,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         urlConnection.setDoOutput(true);
         urlConnection.connect();
 
-        for (int i = 0;  i < 100 ; i++){
-            try{
-                BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-                StringBuilder sb = new StringBuilder();
+        BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+        StringBuilder sb = new StringBuilder();
 
-                String line;
-                while ((line = br.readLine()) != null) {
-                    sb.append(line + "\n");
-                }
-                br.close();
-                jsonString = sb.toString();
-                break;
-            }
-            catch (ProtocolException e){ }
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line + "\n");
         }
+        br.close();
+        jsonString = sb.toString();
 
         return new JSONObject(jsonString);
     }
@@ -126,9 +120,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                     });
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
 
