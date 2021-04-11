@@ -45,16 +45,18 @@ import java.net.*;
 import java.io.*;
 import android.os.StrictMode;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, mapBottomSheet.BottomSheetListener {
 
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
     private FloatingActionButton CreateTaleButton, ProfileButton;
     private Marker myMarker;
+
+    private TextView mTextView;
 
     // Adrian: For GET request
     public static JSONObject getJSONObjectFromURL(String urlString) throws IOException, JSONException {
@@ -83,48 +85,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    LocationCallback locationCallback = new LocationCallback() {
+    final LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
-        for (Location location: locationResult.getLocations()){
+            for (Location location : locationResult.getLocations()) {
 
-            final LatLng CURRENT = new LatLng(location.getLatitude(), location.getLongitude());
-            System.out.println(CURRENT);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CURRENT, 19));
+                final LatLng CURRENT = new LatLng(location.getLatitude(), location.getLongitude());
+                System.out.println(CURRENT);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CURRENT, 19));
 //            mMap.clear();
 
-            try {
-                JSONObject jsonObject = getJSONObjectFromURL("http://35.194.218.135:5000/dbStats");
-                JSONArray getArray = jsonObject.getJSONArray("tales");
-                for(int i = 0; i < getArray.length(); i++){
-                    JSONObject object = getArray.getJSONObject(i);
+                try {
+                    JSONObject jsonObject = getJSONObjectFromURL("http://35.194.218.135:5000/dbStats");
+                    JSONArray getArray = jsonObject.getJSONArray("tales");
+                    for (int i = 0; i < getArray.length(); i++) {
+                        JSONObject object = getArray.getJSONObject(i);
 
-                    double lat = Double.parseDouble(object.get("lat").toString());
-                    double lon = Double.parseDouble(object.get("lon").toString());
+                        double lat = Double.parseDouble(object.get("lat").toString());
+                        double lon = Double.parseDouble(object.get("lon").toString());
+                        String taleId = object.get("taleId").toString()+"@@@"+object.get("userId").toString();
 
-                    final LatLng MARKER = new LatLng(lat, lon);
+                        final LatLng MARKER = new LatLng(lat, lon);
 
-                    Marker marker = mMap.addMarker(
-                        new MarkerOptions()
-                            .position(MARKER)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.calvin_head)));
-                    marker.setTag(MARKER);
+                        Marker marker = mMap.addMarker(
+                                new MarkerOptions()
+                                        .position(MARKER)
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.calvin_head)));
+                        marker.setTag(taleId);
 
-                    mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                        @Override
-                        public boolean onMarkerClick(Marker marker) {
-                            LatLng position = (LatLng)(marker.getTag());
-                            //Using position get Value from arraylist
-                            openArActivity();
+                        mMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) marker1 -> {
+//                            LatLng position = (LatLng) (marker1.getTag());
+//                            openArActivity();
+                            mapBottomSheet bottomSheet = new mapBottomSheet((String) marker1.getTag());
+                            bottomSheet.show(getSupportFragmentManager(), "exampleBottomSheet");
                             return false;
-                        }
-                    });
+                        });
+                    }
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
 
-        }
+            }
         }
     };
 
@@ -157,7 +158,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
 
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -168,6 +168,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationRequest.setInterval(2000);
         locationRequest.setFastestInterval(1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
     }
 
 
@@ -245,5 +246,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void openArActivity() {
         Intent intent = new Intent(this, arActivity.class);
         startActivity(intent);
+    }
+
+    public void onButtonClicked(String text) {
+        mTextView.setText(text);
     }
 }
