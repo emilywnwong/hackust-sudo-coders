@@ -566,8 +566,12 @@ public class arActivity extends AppCompatActivity implements SampleRender.Render
         MotionEvent tap = tapHelper.poll();
         if (tap != null && camera.getTrackingState() == TrackingState.TRACKING) {
             System.out.println("Tap!!");
+            Intent intent = new Intent(arActivity.this, talePlayer.class);
+            startActivity(intent);
         }
     }
+
+
 
 
 //

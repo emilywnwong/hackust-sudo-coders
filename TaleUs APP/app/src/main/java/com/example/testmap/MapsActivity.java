@@ -26,6 +26,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -92,7 +93,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 final LatLng CURRENT = new LatLng(location.getLatitude(), location.getLongitude());
                 System.out.println(CURRENT);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CURRENT, 19));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CURRENT, 18));
 //            mMap.clear();
 
                 try {
@@ -175,8 +176,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // Adrian: Do when map is ready
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+
+        mMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                        this, R.raw.style_json));
+
+        mMap.getUiSettings().setZoomGesturesEnabled(false);
+        mMap.getUiSettings().setScrollGesturesEnabled(false);
 
         // Adrian: check location permission & keep updating location
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){

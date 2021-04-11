@@ -41,13 +41,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TestMap">
-        <activity android:name=".mapBottomSheet"></activity>
+        <activity android:name=".talePlayer"></activity>
+        <activity android:name=".mapBottomSheet" />
         <activity
             android:name=".arActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true"
             android:screenOrientation="locked"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".CreateTaleActivity" />
         <!--
