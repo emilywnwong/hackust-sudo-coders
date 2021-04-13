@@ -104,6 +104,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 try {
                     JSONObject jsonObject = getJSONObjectFromURL("http://35.194.218.135:5000/dbStats");
                     JSONArray getArray = jsonObject.getJSONArray("tales");
+
                     for (int i = 0; i < getArray.length(); i++) {
 
                         JSONObject object = getArray.getJSONObject(i);
@@ -112,9 +113,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         double lon = Double.parseDouble(object.get("lon").toString());
                         boolean retval = markers_list.contains(lat+"@"+lon);
 
+//                        System.out.println(markers_list);
+
                         if (retval == false) {
                             markers_list.add(lat + "@" + lon);
-                            String taleId = object.get("taleId").toString() + "@@@" + object.get("userId").toString();
+                            String taleId = object.get("taleId").toString() + "@@@"
+                                    + object.get("userId").toString() + "@@@"
+                                    + object.get("title").toString() + "@@@"
+                                    + object.get("lat").toString() + "@@@"
+                                    + object.get("lon").toString() + "@@@"
+                                    + object.get("timedate").toString();
+                            System.out.println(taleId);
 
                             final LatLng MARKER = new LatLng(lat, lon);
 

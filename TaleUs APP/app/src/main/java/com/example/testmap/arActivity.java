@@ -161,6 +161,7 @@ public class arActivity extends AppCompatActivity implements SampleRender.Render
     private final float[] worldLightDirection = {0.0f, 0.0f, 0.0f, 0.0f};
     private final float[] viewLightDirection = new float[4]; // view x world light direction
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -567,6 +568,7 @@ public class arActivity extends AppCompatActivity implements SampleRender.Render
         if (tap != null && camera.getTrackingState() == TrackingState.TRACKING) {
             System.out.println("Tap!!");
             Intent intent = new Intent(arActivity.this, talePlayer.class);
+            intent.putExtra("taleId", getIntent().getStringExtra("taleId"));
             startActivity(intent);
         }
     }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFF"
     tools:context=".ProfileActivity">
 
     <androidx.constraintlayout.widget.Guideline
@@ -22,77 +23,123 @@
 
     <ImageView
         android:id="@+id/icon_view"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="Icon photo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="32dp"
         android:background="#878ba9"
-        app:layout_constraintBottom_toTopOf="@+id/username_text"
-        app:layout_constraintLeft_toRightOf="@id/title_guideline_left"
-        app:layout_constraintRight_toLeftOf="@id/title_guideline_right"
+        android:contentDescription="Icon photo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_back" />
+
+    <TextView
+        android:id="@+id/username_text"
+        android:layout_width="100dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="33dp"
+        android:textColor="#000"
+        android:textSize="25dp"
+        android:text="11"
+        app:layout_constraintStart_toEndOf="@+id/icon_view"
+        app:layout_constraintTop_toBottomOf="@+id/profile_back" />
+
+    <TextView
+        android:id="@+id/follower_text"
+        android:layout_width="60dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="61dp"
+        android:layout_marginTop="28dp"
+        android:textColor="#000"
+        android:gravity="center"
+        android:text="11"
+        android:textSize="20dp"
+        app:layout_constraintStart_toEndOf="@+id/tales_text"
+        app:layout_constraintTop_toBottomOf="@+id/icon_view" />
+
+    <TextView
+        android:id="@+id/following_text"
+        android:layout_width="60dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="61dp"
+        android:layout_marginTop="28dp"
+        android:gravity="center"
+        android:text="11"
+        android:textSize="20dp"
+        android:textColor="#000"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.018"
+        app:layout_constraintStart_toEndOf="@+id/follower_text"
+        app:layout_constraintTop_toBottomOf="@+id/icon_view" />
+
+    <TextView
+        android:id="@+id/tales_text"
+        android:layout_width="60dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="28dp"
+        android:gravity="center"
+        android:text="11"
+        android:textSize="20dp"
+        android:textColor="#000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/icon_view" />
+
+    <ImageView
+        android:id="@+id/profile_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.852" />
+        app:srcCompat="@drawable/ic_profile_header" />
 
-    <TextView android:id="@+id/username_text"
-        android:layout_width="100dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="300dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-
-        app:layout_constraintBottom_toTopOf="@+id/tales_text"
-        app:layout_constraintLeft_toRightOf="@id/title_guideline_left"
-        app:layout_constraintRight_toLeftOf="@id/title_guideline_right"
+    <ImageView
+        android:id="@+id/edit_prodile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/followers"
+        app:srcCompat="@drawable/ic_edit_profile_button" />
 
-    <TextView android:id="@+id/tales_text"
-        android:layout_width="100dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="350dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
+    <TextView
+        android:id="@+id/bio"
+        android:layout_width="191dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textSize="10.5sp"
+        android:textColor="#000"
+        app:layout_constraintStart_toEndOf="@+id/icon_view"
+        app:layout_constraintTop_toBottomOf="@+id/username_text" />
 
-        app:layout_constraintBottom_toTopOf="@+id/follower_text"
-        app:layout_constraintLeft_toRightOf="@id/title_guideline_left"
-        app:layout_constraintRight_toLeftOf="@id/title_guideline_right"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <ImageView
+        android:id="@+id/followers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="61dp"
+        app:layout_constraintStart_toEndOf="@+id/tales"
+        app:layout_constraintTop_toBottomOf="@+id/follower_text"
+        app:srcCompat="@drawable/ic_followers" />
 
-    <TextView android:id="@+id/follower_text"
-        android:layout_width="100dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="400dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
+    <ImageView
+        android:id="@+id/following"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="58dp"
+        app:layout_constraintStart_toEndOf="@+id/followers"
+        app:layout_constraintTop_toBottomOf="@+id/following_text"
+        app:srcCompat="@drawable/ic_following" />
 
-        app:layout_constraintBottom_toTopOf="@+id/following_text"
-        app:layout_constraintLeft_toRightOf="@id/title_guideline_left"
-        app:layout_constraintRight_toLeftOf="@id/title_guideline_right"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView android:id="@+id/following_text"
-        android:layout_width="100dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-
-        app:layout_constraintLeft_toRightOf="@id/title_guideline_left"
-        app:layout_constraintRight_toLeftOf="@id/title_guideline_right"
-        app:layout_constraintEnd_toEndOf="parent"
+    <ImageView
+        android:id="@+id/tales"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="42dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/follower_text" />
+        app:layout_constraintTop_toBottomOf="@+id/tales_text"
+        app:srcCompat="@drawable/ic_tales" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -42,16 +42,22 @@
         android:roundIcon="@drawable/ic_app_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.TestMap">
-        <activity android:name=".talePlayer"></activity>
 
-        <activity android:name=".mapBottomSheet" />
+        <activity
+            android:name=".talePlayer"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+<!--        <activity android:name=".mapBottomSheet" />-->
         <activity
             android:name=".arActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true"
             android:screenOrientation="locked"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".ProfileActivity" />
+
+        <activity android:name=".ProfileActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            />
         <activity android:name=".CreateTaleActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -89,6 +95,7 @@
             android:label="RegisterActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
+
 
         <!--
  Indicates that app requires ARCore ("AR Required"). Causes the Google

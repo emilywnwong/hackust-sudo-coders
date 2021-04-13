@@ -9,6 +9,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -83,6 +84,9 @@ public class LoginActivity extends AppCompatActivity {
                                                                LoginActivity.username = username;
                                                                System.out.println(userId);
                                                                openMapsActivity();
+                                                           } else {
+                                                               Toast.makeText(LoginActivity.this, "Incorrect information!",
+                                                                       Toast.LENGTH_LONG).show();
                                                            }
                                                        } catch (IOException e) {
                                                            e.printStackTrace();
