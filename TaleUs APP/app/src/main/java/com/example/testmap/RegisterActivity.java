@@ -2,6 +2,7 @@ package com.example.testmap;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,8 +50,10 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     private EditText email_editText,username_editText, password_editText;
-    private Button uploadIconButton, takeIconButton, registerButton;
+    private Button takeIconButton ;
+    private ImageView uploadIconButton, registerButton;
     private String icon = "---";
+
 
     // Adrian: For GET request
     public static JSONObject getJSONObjectFromURL(String urlString) throws IOException, JSONException {
@@ -148,7 +152,7 @@ public class RegisterActivity extends AppCompatActivity {
                 imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
                 icon = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                ImageView imageView = (ImageView) findViewById(R.id.icon_view);
+                ImageView imageView = (ImageView) findViewById(R.id.uploadIconButton);
 //                imageView.setImageResource(R.drawable.icon_photo);
                 imageView.setImageBitmap(imageBitmap);
 
@@ -158,6 +162,7 @@ public class RegisterActivity extends AppCompatActivity {
                 System.out.println("IconFailed");
             }
     }//onActivityResult
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,7 +172,7 @@ public class RegisterActivity extends AppCompatActivity {
         username_editText = findViewById(R.id.username_text);
         password_editText = findViewById(R.id.password_text);
 
-        uploadIconButton = (Button) findViewById(R.id.uploadIconButton);
+        uploadIconButton = (ImageView) findViewById(R.id.uploadIconButton);
         uploadIconButton.setOnClickListener(new View.OnClickListener() {
 
                                             @Override
@@ -182,23 +187,23 @@ public class RegisterActivity extends AppCompatActivity {
                                             }
                                         });
 
-        takeIconButton = (Button) findViewById(R.id.takeIconButton);
-        takeIconButton.setOnClickListener(new View.OnClickListener() {
+//        takeIconButton = (Button) findViewById(R.id.takeIconButton);
+//        takeIconButton.setOnClickListener(new View.OnClickListener() {
+//
+//                                            @Override
+//                                            public void onClick(View v) {
+//                                                PICK_IMAGE = 0;
+//                                                REQUEST_IMAGE_CAPTURE = 1;
+//
+//                                                dispatchTakePictureIntent();
+//                                                System.out.println(icon);
+//
+//
+//
+//                                            }
+//                                        });
 
-                                            @Override
-                                            public void onClick(View v) {
-                                                PICK_IMAGE = 0;
-                                                REQUEST_IMAGE_CAPTURE = 1;
-
-                                                dispatchTakePictureIntent();
-                                                System.out.println(icon);
-
-
-
-                                            }
-                                        });
-
-        registerButton = (Button) findViewById(R.id.createButton);
+        registerButton = (ImageView) findViewById(R.id.createButton);
         registerButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {

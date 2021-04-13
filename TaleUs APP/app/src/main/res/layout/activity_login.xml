@@ -5,103 +5,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@layout/login_gradient"
     tools:context=".LoginActivity">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/title_guideline_left"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.1" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/title_guideline_right"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.9" />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="201.7dp"
+        android:layout_height="43dp"
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:drawableStart="@android:drawable/arrow_down_float"
-        android:drawablePadding="6dp"
-        android:gravity="bottom"
-        android:includeFontPadding="false"
-        android:singleLine="true"
-        android:text="hello user. Tale us something"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintBottom_toTopOf="@+id/username_text"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toRightOf="@id/title_guideline_left"
-        app:layout_constraintRight_toLeftOf="@id/title_guideline_right"
+        android:layout_marginTop="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.253"
-        tools:text="@tools:sample/lorem/random" />
+        app:srcCompat="@drawable/ic_taleus_logo" />
 
     <EditText
         android:id="@+id/username_text"
-        android:layout_width="250dp"
-        android:layout_height="45dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="#878ba9"
-        android:ems="10"
-        android:hint="Username"
+        android:layout_width="278dp"
+        android:layout_height="42dp"
 
+        android:layout_marginTop="134dp"
+        android:hint="Username"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/password_text"
+        android:textColorHint="#FFF"
+        app:backgroundTint="#FFF"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.852" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <EditText
         android:id="@+id/password_text"
-        android:layout_width="250dp"
-        android:layout_height="45dp"
-        android:layout_marginBottom="48dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:background="#878ba9"
-        android:ems="10"
+        android:layout_width="278dp"
+        android:layout_height="42dp"
+
+        android:layout_marginStart="71dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="72dp"
         android:hint="Password"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/LoginButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textColorHint="#FFF"
 
-    <Button
+        app:backgroundTint="#FFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username_text" />
+
+    <ImageView
         android:id="@+id/LoginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log in"
-        android:layout_marginBottom="48dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/RegisterButton"
-        app:layout_constraintTop_toTopOf="parent" />
-    <Button
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_text"
+        app:srcCompat="@drawable/ic_lon_in_btn" />
+
+    <ImageView
         android:id="@+id/RegisterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="171dp"
+        android:layout_height="21dp"
 
-        android:text="Register"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/LoginButton"
-        app:layout_constraintRight_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LoginButton"
+        app:srcCompat="@drawable/ic_sign_up_btn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

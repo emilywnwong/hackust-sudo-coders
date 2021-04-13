@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     public static String userId;
     public static String username;
     private EditText username_editText, password_editText;
-    private Button LoginButton, RegisterButton;
+    private ImageView LoginButton, RegisterButton;
 
     // Adrian: For GET request
     public static JSONObject getJSONObjectFromURL(String urlString) throws IOException, JSONException {
@@ -63,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
         username_editText = findViewById(R.id.username_text);
         password_editText = findViewById(R.id.password_text);
-        LoginButton = (Button) findViewById(R.id.LoginButton);
+        LoginButton = (ImageView) findViewById(R.id.LoginButton);
         LoginButton.setOnClickListener(new View.OnClickListener() {
                                            @Override
                                            public void onClick(View v) {
@@ -92,16 +94,13 @@ public class LoginActivity extends AppCompatActivity {
                                            }
                                        });
 
-        RegisterButton = (Button) findViewById(R.id.RegisterButton);
+        RegisterButton = (ImageView) findViewById(R.id.RegisterButton);
         RegisterButton.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
                                                 openRegisterActivity();
                                             }
                                         });
-
-
-
 
 
     }

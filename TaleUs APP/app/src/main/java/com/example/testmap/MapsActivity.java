@@ -42,8 +42,13 @@ import org.json.JSONException;
 import java.io.IOException;
 
 import org.json.*;
+
+import java.lang.reflect.Array;
 import java.net.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.TextView;
@@ -56,8 +61,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationRequest locationRequest;
     private FloatingActionButton CreateTaleButton, ProfileButton;
     private Marker myMarker;
-
     private TextView mTextView;
+    private List<String> markers_list = new ArrayList<String>();
 
     // Adrian: For GET request
     public static JSONObject getJSONObjectFromURL(String urlString) throws IOException, JSONException {
@@ -93,37 +98,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 final LatLng CURRENT = new LatLng(location.getLatitude(), location.getLongitude());
                 System.out.println(CURRENT);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CURRENT, 18));
-//            mMap.clear();
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CURRENT, 19));
+//                mMap.clear();
 
                 try {
                     JSONObject jsonObject = getJSONObjectFromURL("http://35.194.218.135:5000/dbStats");
                     JSONArray getArray = jsonObject.getJSONArray("tales");
                     for (int i = 0; i < getArray.length(); i++) {
+
                         JSONObject object = getArray.getJSONObject(i);
 
                         double lat = Double.parseDouble(object.get("lat").toString());
                         double lon = Double.parseDouble(object.get("lon").toString());
-                        String taleId = object.get("taleId").toString()+"@@@"+object.get("userId").toString();
+                        boolean retval = markers_list.contains(lat+"@"+lon);
 
-                        final LatLng MARKER = new LatLng(lat, lon);
+                        if (retval == false) {
+                            markers_list.add(lat + "@" + lon);
+                            String taleId = object.get("taleId").toString() + "@@@" + object.get("userId").toString();
 
-                        Marker marker = mMap.addMarker(
-                                new MarkerOptions()
-                                        .position(MARKER)
-                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.calvin_head)));
-                        marker.setTag(taleId);
+                            final LatLng MARKER = new LatLng(lat, lon);
 
-                        mMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) marker1 -> {
-//                            LatLng position = (LatLng) (marker1.getTag());
-//                            openArActivity();
-                            mapBottomSheet bottomSheet = new mapBottomSheet((String) marker1.getTag());
-                            bottomSheet.show(getSupportFragmentManager(), "exampleBottomSheet");
-                            return false;
-                        });
+                            Marker marker = mMap.addMarker(
+                                    new MarkerOptions()
+                                            .position(MARKER)
+                                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.inactive5)));
+                            marker.setTag(taleId);
+
+
+                            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                public boolean onMarkerClick(Marker marker) {
+                                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.active5));
+//                                stopLocationUpdates();
+                                    mapBottomSheet bottomSheet = new mapBottomSheet((String) marker.getTag());
+                                    bottomSheet.show(getSupportFragmentManager(), "exampleBottomSheet");
+                                    return true;
+                                }
+                            });
+
+                        }
                     }
                 } catch (IOException | JSONException e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
                 }
 
             }
@@ -187,6 +202,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.getUiSettings().setZoomGesturesEnabled(false);
         mMap.getUiSettings().setScrollGesturesEnabled(false);
+        mMap.getUiSettings().setRotateGesturesEnabled(true);
 
         // Adrian: check location permission & keep updating location
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
@@ -260,5 +276,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void onButtonClicked(String text) {
         mTextView.setText(text);
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);
     }
 }
