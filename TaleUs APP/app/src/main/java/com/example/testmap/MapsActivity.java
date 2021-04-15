@@ -102,11 +102,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 final LatLng CURRENT = new LatLng(location.getLatitude(), location.getLongitude());
                 System.out.println(CURRENT);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CURRENT, 19));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CURRENT, 18));
 //                mMap.clear();
 
                 try {
-                    JSONObject jsonObject = getJSONObjectFromURL("http://35.194.218.135:5000/dbStats");
+                    JSONObject jsonObject = getJSONObjectFromURL("http://35.194.218.135:5000/getNearbyTales?lat="+location.getLatitude()+"&lon="+location.getLongitude());
                     JSONArray getArray = jsonObject.getJSONArray("tales");
 
                     for (int i = 0; i < getArray.length(); i++) {

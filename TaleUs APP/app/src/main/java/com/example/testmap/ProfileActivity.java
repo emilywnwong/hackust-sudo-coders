@@ -203,7 +203,7 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 };
                 try {
-                    JSONObject jsonObject = getJSONObjectFromURL("http://35.194.218.135:5000/dbStats");
+                    JSONObject jsonObject = getJSONObjectFromURL("http://35.194.218.135:5000/getTalesFromUser?userId="+LoginActivity.userId);
                     JSONArray getArray = jsonObject.getJSONArray("tales");
                     ViewGroup insertPoint = (ViewGroup) findViewById(R.id.history);
 
