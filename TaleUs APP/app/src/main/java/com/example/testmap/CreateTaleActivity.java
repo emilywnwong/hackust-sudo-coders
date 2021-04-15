@@ -56,6 +56,8 @@ public class CreateTaleActivity extends AppCompatActivity implements AdapterView
 
     public static String filename = "record.3gp";
     String file = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + filename;
+//    String file = getCacheDir() + File.separator + filename;
+
 
 
     private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException{
@@ -141,45 +143,32 @@ public class CreateTaleActivity extends AppCompatActivity implements AdapterView
         title.setTypeface(null, Typeface.BOLD);
 
 
-//        Spinner privacy_spinner = (Spinner) findViewById(R.id.record_privacy);
-//        ArrayAdapter<CharSequence> privacy_adapter = ArrayAdapter.createFromResource(this,
-//                R.array.talePrivacy_array, android.R.layout.simple_spinner_item);
-//        privacy_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        privacy_spinner.setAdapter(privacy_adapter);
-//        privacy_spinner.setOnItemSelectedListener(this);
-//
-//
-//        Spinner timelimit_spinner = (Spinner) findViewById(R.id.record_timelimit);
-//        ArrayAdapter<CharSequence> timelimit_adapter = ArrayAdapter.createFromResource(this,
-//                R.array.taleTimeLimit_array, android.R.layout.simple_spinner_item);
-//        timelimit_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        timelimit_spinner.setAdapter(timelimit_adapter);
-//        timelimit_spinner.setOnItemSelectedListener(this);
-
-
         int file_permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int mic_permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
+
+        int both_permission = file_permission * mic_permission;
         // If we don't have permissions, ask user for permissions
-        if (file_permission != PackageManager.PERMISSION_GRANTED) {
+        if (both_permission != PackageManager.PERMISSION_GRANTED) {
             String[] PERMISSIONS_STORAGE = {
                     android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    android.Manifest.permission.RECORD_AUDIO
             };
             int REQUEST_EXTERNAL_STORAGE = 1;
 
             ActivityCompat.requestPermissions(
                     this,
                     PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
+                    1
             );
         }
 
-        int mic_permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
         // If we don't have permissions, ask user for permissions
         if (mic_permission != PackageManager.PERMISSION_GRANTED) {
             int MY_PERMISSIONS_RECORD_AUDIO = 1;
 
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.RECORD_AUDIO},
+                    new String[]{},
                     MY_PERMISSIONS_RECORD_AUDIO);
         }
 
@@ -338,6 +327,8 @@ public class CreateTaleActivity extends AppCompatActivity implements AdapterView
                 String title_text = title.getText().toString();
                 try {
                     File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "record.3gp");
+//                    File file = new File(getCacheDir() + File.separator + "record.3gp");
+
                     FileInputStream fileInputStreamReader = new FileInputStream(file);
                     byte[] bytes = new byte[(int)file.length()];
                     fileInputStreamReader.read(bytes);

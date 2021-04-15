@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,11 +19,15 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -89,6 +94,8 @@ public class ProfileActivity extends AppCompatActivity {
         follower_count_TextView.setTypeface(null, Typeface.BOLD);
         following_count_TextView.setTypeface(null, Typeface.BOLD);
 
+        JSONArray history_tale = new JSONArray();
+
         profile_back_ImageView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -116,7 +123,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void run(){
                 try {
                     JSONObject jsonObject = getJSONObjectFromURL(url);
-                    System.out.println(jsonObject);
+//                    System.out.println(jsonObject);
                     String bio = jsonObject.get("bio").toString();
                     if (!bio.equals("")) {
                         System.out.println(bio);
@@ -136,7 +143,7 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                     String talesCount = jsonObject.get("talesCount").toString();
                     if (talesCount!= "null") {
-                        System.out.println(talesCount);
+//                        System.out.println(talesCount);
                         for (int i=0;i<10;i++) {
                             try{
                             tales_count_TextView.setText(talesCount);
@@ -146,7 +153,7 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                     String followerCount = jsonObject.get("followerCount").toString();
                     if (followerCount!= "null") {
-                        System.out.println(followerCount);
+//                        System.out.println(followerCount);
                         for (int i=0;i<10;i++) {
                             try{
                                 follower_count_TextView.setText(followerCount);
@@ -156,7 +163,7 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                     String followingCount = jsonObject.get("followingCount").toString();
                     if (followingCount!= "null") {
-                        System.out.println(followingCount);
+//                        System.out.println(followingCount);
                         for (int i=0;i<10;i++) {
                             try{
                                 following_count_TextView.setText(followingCount);
@@ -166,7 +173,7 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                     String iconString = jsonObject.get("icon").toString();
                     if (iconString!= "null") {
-                        System.out.println(iconString);
+//                        System.out.println(iconString);
                         byte[] iconBytes = Base64.decode(iconString, Base64.DEFAULT);
                         Bitmap bmp = BitmapFactory.decodeByteArray(iconBytes, 0, iconBytes.length);
                         for (int i=0;i<10;i++) {
@@ -183,6 +190,58 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         }).start();
+
+        runOnUiThread(new Runnable(){
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void run(){
+                View.OnClickListener listener = new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(ProfileActivity.this, talePlayer.class);
+                        intent.putExtra("taleId", v.getTag().toString());
+                        startActivity(intent);
+                    }
+                };
+                try {
+                    JSONObject jsonObject = getJSONObjectFromURL("http://35.194.218.135:5000/dbStats");
+                    JSONArray getArray = jsonObject.getJSONArray("tales");
+                    ViewGroup insertPoint = (ViewGroup) findViewById(R.id.history);
+
+                    for (int i = getArray.length()-1; i>=0; i--) {
+                        JSONObject object = getArray.getJSONObject(i);
+                        if (object.get("userId").toString() == LoginActivity.userId.toString()) {
+                            String taleId = object.get("taleId").toString() + "@@@"
+                                    + object.get("userId").toString() + "@@@"
+                                    + object.get("title").toString() + "@@@"
+                                    + object.get("lat").toString() + "@@@"
+                                    + object.get("lon").toString() + "@@@"
+                                    + object.get("timedate").toString();
+
+                            LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                            View v = vi.inflate(R.layout.profile_record, null);
+                            TextView title_textView = (TextView) v.findViewById(R.id.record_text);
+                            title_textView.setText(object.get("title").toString());
+
+                            TextView loc_textView = (TextView) v.findViewById(R.id.loc_textView);
+                            loc_textView.setText(object.get("lat").toString()+", "+object.get("lon").toString());
+
+                            ImageView play_btn = (ImageView) v.findViewById(R.id.record_play);
+                            play_btn.setTag(taleId);
+                            play_btn.setOnClickListener(listener);
+
+                            insertPoint.addView(v, -1, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
+                            System.out.println(object.get("taleId"));
+                        }
+                    }
+
+
+
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
 

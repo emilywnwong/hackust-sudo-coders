@@ -149,7 +149,7 @@ public class RegisterActivity extends AppCompatActivity {
                     imageBitmap = (Bitmap) BitmapFactory.decodeStream(iconStream);
                 }
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                imageBitmap.compress(Bitmap.CompressFormat.PNG, 20, byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
                 icon = Base64.encodeToString(byteArray, Base64.DEFAULT);
                 ImageView imageView = (ImageView) findViewById(R.id.uploadIconButton);
