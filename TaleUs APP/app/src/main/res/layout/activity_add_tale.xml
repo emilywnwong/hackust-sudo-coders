@@ -1,68 +1,264 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EFEFFF">
 
-    <LinearLayout
-        android:id="@+id/firstSpinner"
-        android:orientation="vertical"
-        android:padding="10dip"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/record_record"
+        android:layout_width="178dp"
+        android:layout_height="178dp"
+        android:layout_marginBottom="80dp"
+        android:onClick="onClick"
+        app:layout_constraintBottom_toTopOf="@+id/record_bottom_rect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_record" />
 
-        <!-- Text Label -->
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
-            android:text="@string/privacy"
-            android:layout_marginBottom="5dp"
-            />
+    <ImageView
+        android:id="@+id/record_pause"
+        android:layout_width="178dp"
+        android:layout_height="178dp"
+        android:layout_marginBottom="80dp"
+        android:onClick="onClick"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/record_bottom_rect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_record_stop" />
 
-        <!-- Spinner Element -->
-        <Spinner
-            android:id="@+id/privacy_spinner"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/secondSpinner"
-        android:layout_below="@id/firstSpinner"
-        android:orientation="vertical"
-        android:padding="10dip"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-    <!-- Text Label -->
-    <TextView
-        android:layout_width="fill_parent"
+    <ImageView
+        android:id="@+id/record_back"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:text="@string/time_limit"
-        android:layout_marginBottom="5dp"
-        />
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_back_record" />
 
-    <!-- Spinner Element -->
-    <Spinner
-        android:id="@+id/timelimit_spinner"
-        android:layout_width="fill_parent"
+    <ImageView
+        android:id="@+id/record_bottom_rect"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
-    </LinearLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_record_bot2" />
+
+    <ImageView
+        android:id="@+id/record_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/record_bottom_rect"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/record_cancel"
+        app:srcCompat="@drawable/ic_group_1" />
+
+    <ImageView
+        android:id="@+id/record_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/record_done"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/record_bottom_rect"
+        app:srcCompat="@drawable/ic_record_cancel" />
 
 
-    <Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Create"
-    android:id="@+id/createTaleButton"
-    android:layout_alignParentBottom="true"
-    android:layout_centerHorizontal="true"
-    android:layout_marginBottom="137dp" />
+    <Chronometer
+        android:id="@+id/record_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:textSize="44dp"
+        app:layout_constraintBottom_toTopOf="@+id/record_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
-</RelativeLayout>
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/record_title"
+        android:layout_width="158dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:hint="Title of Tale"
+        android:lines="1"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="#DBDBDB"
+        android:textColorHint="#DBDBDB"
+        app:backgroundTint="#DBDBDB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/record_back" />
+
+    <ImageView
+        android:id="@+id/record_public_active"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="47dp"
+        android:layout_marginBottom="24dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/record_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/record_bottom_rect"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/record_friend_inactive"
+        app:srcCompat="@drawable/ic_public_active" />
+
+    <ImageView
+        android:id="@+id/record_public_inactive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="47dp"
+        android:layout_marginBottom="24dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/record_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/record_bottom_rect"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/record_friend_active"
+
+        app:srcCompat="@drawable/ic_public_inactive" />
+
+    <ImageView
+        android:id="@+id/record_friend_active"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/record_next"
+        app:layout_constraintEnd_toStartOf="@+id/record_public_inactive"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/record_bottom_rect"
+        app:srcCompat="@drawable/ic_friends_only_active" />
+
+    <ImageView
+        android:id="@+id/record_friend_inactive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/record_next"
+        app:layout_constraintEnd_toStartOf="@+id/record_public_active"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/record_bottom_rect"
+        app:srcCompat="@drawable/ic_friends_only_inactive" />
+
+    <ImageView
+        android:id="@+id/record_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:visibility="gone"
+
+        app:layout_constraintBottom_toBottomOf="@+id/record_bottom_rect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_record_next" />
+
+    <ImageView
+        android:id="@+id/who_can"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="150dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/record_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_who_can_view" />
+
+    <ImageView
+        android:id="@+id/record_post"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+
+
+        app:layout_constraintBottom_toBottomOf="@+id/record_bottom_rect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_post" />
+
+    <ImageView
+        android:id="@+id/record_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="150dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/record_post"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_duration" />
+
+    <ImageView
+        android:id="@+id/record_48h_active"
+        android:visibility="gone"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="45dp"
+        app:layout_constraintBottom_toTopOf="@+id/record_post"
+        app:layout_constraintEnd_toStartOf="@+id/record_72h_inactive"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/record_bottom_rect"
+        app:srcCompat="@drawable/ic_48h_active" />
+
+    <ImageView
+        android:id="@+id/record_72h_inactive"
+        android:visibility="gone"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="45dp"
+        app:layout_constraintBottom_toTopOf="@+id/record_post"
+        app:layout_constraintEnd_toStartOf="@+id/record_1w_inactive"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/record_48h_active"
+        app:srcCompat="@drawable/ic_72h_inactive" />
+
+    <ImageView
+        android:id="@+id/record_1w_inactive"
+        android:visibility="gone"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="45dp"
+        app:layout_constraintBottom_toTopOf="@+id/record_post"
+        app:layout_constraintEnd_toStartOf="@+id/record_forever_inactive"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/record_72h_inactive"
+        app:srcCompat="@drawable/ic_1w_inactive" />
+
+    <ImageView
+        android:id="@+id/record_forever_inactive"
+        android:visibility="gone"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="45dp"
+        app:layout_constraintBottom_toTopOf="@+id/record_post"
+        app:layout_constraintEnd_toStartOf="@+id/record_bottom_rect"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/record_1w_inactive"
+        app:srcCompat="@drawable/ic_forever_inactive" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 

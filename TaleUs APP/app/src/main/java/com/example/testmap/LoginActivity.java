@@ -84,9 +84,6 @@ public class LoginActivity extends AppCompatActivity {
                                                                LoginActivity.username = username;
                                                                System.out.println(userId);
                                                                openMapsActivity();
-                                                           } else {
-                                                               Toast.makeText(LoginActivity.this, "Incorrect information!",
-                                                                       Toast.LENGTH_LONG).show();
                                                            }
                                                        } catch (IOException e) {
                                                            e.printStackTrace();

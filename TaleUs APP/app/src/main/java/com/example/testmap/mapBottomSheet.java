@@ -121,7 +121,7 @@ public class mapBottomSheet extends BottomSheetDialogFragment {
         TextView mapBottomDateText = (TextView) v.findViewById(R.id.tale_date);
         mapBottomDateText.setText(datetime);
 
-        Button button2 = v.findViewById(R.id.bot_detail);
+        ImageView button2 = v.findViewById(R.id.bot_detail);
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

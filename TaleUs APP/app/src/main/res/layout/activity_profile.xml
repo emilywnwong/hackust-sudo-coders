@@ -22,6 +22,14 @@
         app:layout_constraintGuide_percent="0.9" />
 
     <ImageView
+        android:id="@+id/ellipse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_ellipse" />
+    <ImageView
         android:id="@+id/icon_view"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -29,6 +37,7 @@
         android:layout_marginTop="32dp"
         android:background="#878ba9"
         android:contentDescription="Icon photo"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_back" />
 
@@ -89,6 +98,7 @@
         android:id="@+id/profile_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_profile_header" />
@@ -141,5 +151,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tales_text"
         app:srcCompat="@drawable/ic_tales" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

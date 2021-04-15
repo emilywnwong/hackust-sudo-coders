@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.media.MediaDataSource;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Base64;
 import android.view.View;
@@ -21,16 +24,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class talePlayer extends AppCompatActivity {
 
-    private static String audioString;
     private TextView player_username_TextView, player_title_TextView;
     private ImageView player_icon_ImageView, player_down_ImageView, player_translate_ImageView;
     private String taleId, userId, title, lat, lon, datetime;
@@ -39,7 +44,7 @@ public class talePlayer extends AppCompatActivity {
     SeekBar seekBar;
     ImageView player_play, player_pause;
 
-    MediaPlayer mediaPlayer;
+    MediaPlayer mediaPlayer = new MediaPlayer();
     Handler handler = new Handler();
     Runnable runnable;
 
@@ -80,6 +85,7 @@ public class talePlayer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tale_player);
 
+        String audioString = null;
         playerPosition = findViewById(R.id.playerPosition);
         playerDuration = findViewById(R.id.playerDuration);
         seekBar = findViewById(R.id.player_seekBar);
@@ -104,19 +110,14 @@ public class talePlayer extends AppCompatActivity {
 
         player_title_TextView.setTypeface(null, Typeface.BOLD);
 
-        String tale_url = "http://35.194.218.135:5000/viewTale?taleId="+ taleId;
-        new Thread(new Runnable(){
-            public void run(){
-                try {
-                    JSONObject jsonObject = getJSONObjectFromURL(tale_url);
-                    talePlayer.audioString = jsonObject.get("b64").toString();
-                } catch (IOException | JSONException e) {}
-            }
-        }).start();
+        try {
+            mediaPlayer.setDataSource("http://35.194.218.135:5000/audio/"+taleId);
+            mediaPlayer.prepare();
 
-        System.out.println(this.audioString);
-//        byte[] data = Base64.decode(this.audioString, Base64.DEFAULT);
-        mediaPlayer = MediaPlayer.create(this, R.raw.music2);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         runnable = new Runnable() {
             @Override
             public void run() {
@@ -225,6 +226,7 @@ public class talePlayer extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(talePlayer.this, MapsActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
             }
         });
 

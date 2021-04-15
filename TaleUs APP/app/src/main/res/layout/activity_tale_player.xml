@@ -99,8 +99,8 @@
 
     <ImageView
         android:id="@+id/player_down"
-        android:layout_width="41dp"
-        android:layout_height="42dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginStart="18dp"
         android:layout_marginTop="18dp"
         app:layout_constraintStart_toStartOf="parent"

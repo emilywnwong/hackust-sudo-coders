@@ -21,19 +21,6 @@
         app:layout_constraintStart_toEndOf="@+id/bot_icon"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/bot_detail"
-        android:layout_width="81dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="4dp"
-        android:text="Detail"
-        android:textSize="9sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/bot_icon"
-        app:layout_constraintTop_toBottomOf="@+id/bot_title" />
-
     <ImageView
         android:id="@+id/bot_icon"
         android:layout_width="72dp"
@@ -63,7 +50,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toEndOf="@+id/bot_icon"
         app:layout_constraintTop_toBottomOf="@+id/bot_title"
-        app:srcCompat="@drawable/ic_pin" />
+        android:background="@drawable/ic_pin"/>
 
     <TextView
         android:id="@+id/tale_date"
@@ -75,5 +62,15 @@
         android:textSize="10.5dp"
         app:layout_constraintStart_toEndOf="@+id/bot_icon"
         app:layout_constraintTop_toBottomOf="@+id/loc" />
+
+    <ImageView
+        android:id="@+id/bot_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bot_title"
+        android:background="@drawable/ic_detail"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

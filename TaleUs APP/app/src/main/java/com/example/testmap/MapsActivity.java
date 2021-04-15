@@ -56,6 +56,7 @@ import android.widget.TextView;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, mapBottomSheet.BottomSheetListener {
 
+    public static double lat, lon;
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
@@ -95,6 +96,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
             for (Location location : locationResult.getLocations()) {
+                MapsActivity.lat = location.getLatitude();
+                MapsActivity.lon = location.getLongitude();
 
                 final LatLng CURRENT = new LatLng(location.getLatitude(), location.getLongitude());
                 System.out.println(CURRENT);
@@ -123,7 +126,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     + object.get("lat").toString() + "@@@"
                                     + object.get("lon").toString() + "@@@"
                                     + object.get("timedate").toString();
-                            System.out.println(taleId);
+//                            System.out.println(taleId);
 
                             final LatLng MARKER = new LatLng(lat, lon);
 
